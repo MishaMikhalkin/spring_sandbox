@@ -25,6 +25,7 @@ public class GenericConfig {
 
     @Bean
     public ConsoleUtil consoleUtil() {
-        return new ConsoleUtil();
+        return  new ConsoleUtil(locale(), messageSource());
     }
+
 }

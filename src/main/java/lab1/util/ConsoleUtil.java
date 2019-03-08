@@ -1,5 +1,6 @@
 package lab1.util;
 
+import lab1.config.GenericConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
@@ -9,37 +10,38 @@ import java.util.Scanner;
 
 @Component
 public class ConsoleUtil {
-    private static ConsoleUtil instance;
-
-    private Scanner scanner = new Scanner(System.in);
 
     @Autowired
     private MessageSource messageSource;
 
     @Autowired
-    private AppLanguage language;
+    private AppLanguage appLanguage;
 
+    private Scanner scanner = new Scanner(System.in);
 
-    @PostConstruct
-    public void init() {
-        instance = this;
+    public ConsoleUtil(AppLanguage appLanguage, MessageSource messageSource) {
+        this.messageSource = messageSource;
+        this.appLanguage = appLanguage;
     }
 
-    public static void printLocalizedString(String name, String[] args) {
-        String message = instance.messageSource.getMessage(name, args, instance.language.getLocale());
+
+
+
+    public void printLocalizedString(String name, String[] args) {
+        String message = messageSource.getMessage(name, args, appLanguage.getLocale());
         System.out.println(message);
     }
 
-    public static String getLocalizedString(String name, String[] args) {
-        return instance.messageSource.getMessage(name, args, instance.language.getLocale());
+    public  String getLocalizedString(String name, String[] args) {
+        return messageSource.getMessage(name, args, appLanguage.getLocale());
     }
 
 
-    public static String readString() {
-        return  instance.scanner.nextLine();
+    public String readString() {
+        return  scanner.nextLine();
     }
 
-    public static int readInt() {
-        return  instance.scanner.nextInt();
+    public int readInt() {
+        return  scanner.nextInt();
     }
 }
