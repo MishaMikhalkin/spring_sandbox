@@ -3,19 +3,29 @@
  */
 package lab1;
 
+import lab1.config.DaoConfig;
+import lab1.config.GenericConfig;
+import lab1.config.ServiceConfig;
 import lab1.domain.Questionnaire;
 import lab1.domain.Result;
 import lab1.domain.Student;
 import lab1.service.*;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
+@Configuration
+@ComponentScan
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("./spring-config.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.register(DaoConfig.class);
+        context.register(ServiceConfig.class);
+        context.register(GenericConfig.class);
+        context.refresh();
         StudentService studentService =  context.getBean(StudentService.class);
         Student student = studentService.register();
 

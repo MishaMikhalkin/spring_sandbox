@@ -1,20 +1,20 @@
 package lab1.service;
 
-import lab1.dao.CSVProvider;
+import lab1.dao.QuestionnaireDao;
 import lab1.domain.Questionnaire;
 
 public class QuestionnaireServiceImpl implements QuestionnaireService {
-    private final CSVProvider csvProvider;
+    private final QuestionnaireDao questionnaireDao;
 
-    public QuestionnaireServiceImpl(CSVProvider provider) {
-        csvProvider = provider;
+    public QuestionnaireServiceImpl(QuestionnaireDao provider) {
+        questionnaireDao = provider;
     }
 
 
     @Override
     public Questionnaire findByName(String name) throws Exception{
         try {
-            return csvProvider.findByName(name);
+            return questionnaireDao.findByName(name);
         } catch (Exception e) {
             throw e;
         }
