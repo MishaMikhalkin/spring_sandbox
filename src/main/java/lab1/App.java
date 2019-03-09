@@ -6,18 +6,20 @@ package lab1;
 import lab1.config.DaoConfig;
 import lab1.config.GenericConfig;
 import lab1.config.ServiceConfig;
-import lab1.domain.Questionnaire;
 import lab1.domain.Result;
-import lab1.domain.Student;
-import lab1.service.*;
+import lab1.runner.RunnerService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+
 
 @Configuration
 @ComponentScan
 public class App {
+
+    final static Logger logger = LoggerFactory.getLogger(App.class);
 
 
     public static void main(String[] args) {
@@ -26,20 +28,15 @@ public class App {
         context.register(ServiceConfig.class);
         context.register(GenericConfig.class);
         context.refresh();
-        StudentService studentService =  context.getBean(StudentService.class);
-        Student student = studentService.register();
 
-        QuestionnaireService questionnaireService = context.getBean(QuestionnaireService.class);
+        logger.info("logger app");
+        RunnerService inquirerService = context.getBean(RunnerService.class);
+        GenericConfig genericConfig = context.getBean(GenericConfig.class);
         try {
-            Questionnaire questionnaire = questionnaireService.findByName("name");
-
-            InquirerService inquirerService = context.getBean(InquirerService.class);
-            Result result = inquirerService.makeInquirer(student, questionnaire);
-
-            ScoringService scoringService = context.getBean(ScoringService.class);
-            System.out.println(scoringService.evaluate(result));
+            Result result = inquirerService.makeInquirer("name");
+            genericConfig.consoleUtil().printLocalizedString("score", new String[] {result.getScore()});
         } catch (Exception e) {
-
+            logger.info(e.getMessage());
         }
 
     }

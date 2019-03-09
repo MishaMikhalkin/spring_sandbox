@@ -12,6 +12,8 @@ public class Result {
 
     private float result;
 
+    private String score;
+
     public Student getStudent() {
         return student;
     }
@@ -42,5 +44,13 @@ public class Result {
 
     public void setQuestionnaire(Questionnaire questionnaire) {
         this.questionnaire = questionnaire;
+    }
+
+    public void setScore(String score) {
+        this.score = score;
+    }
+
+    public String getScore() {
+        return score;
     }
 }
