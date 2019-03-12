@@ -5,9 +5,13 @@ import lab1.util.ConsoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class StudentConsoleDao implements StudentDao {
+    private ConsoleUtil consoleUtil;
+
 
     @Autowired
-    private ConsoleUtil consoleUtil;
+    public StudentConsoleDao(ConsoleUtil consoleUtil) {
+        this.consoleUtil = consoleUtil;
+    }
 
     @Override
     public Student load() {

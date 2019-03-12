@@ -1,24 +1,21 @@
 package lab1.util;
 
-import lab1.config.GenericConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.*;
 import java.util.Scanner;
 
 @Component
 public class ConsoleUtil {
 
-    @Autowired
     private MessageSource messageSource;
 
-    @Autowired
     private AppLanguage appLanguage;
 
     private Scanner scanner = new Scanner(System.in);
 
+    @Autowired
     public ConsoleUtil(AppLanguage appLanguage, MessageSource messageSource) {
         this.messageSource = messageSource;
         this.appLanguage = appLanguage;
@@ -41,7 +38,7 @@ public class ConsoleUtil {
         return  scanner.nextLine();
     }
 
-    public int readInt() {
+    public Integer readInt() {
         return  scanner.nextInt();
     }
 }
