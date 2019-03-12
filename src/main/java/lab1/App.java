@@ -8,11 +8,14 @@ import lab1.config.GenericConfig;
 import lab1.config.ServiceConfig;
 import lab1.domain.Result;
 import lab1.runner.RunnerService;
+import lab1.util.ConsoleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.Console;
 
 
 @Configuration
@@ -28,10 +31,10 @@ public class App {
 
         logger.info("logger app");
         RunnerService inquirerService = context.getBean(RunnerService.class);
-        GenericConfig genericConfig = context.getBean(GenericConfig.class);
+        ConsoleUtil consoleUtil = context.getBean(ConsoleUtil.class);
         try {
             Result result = inquirerService.makeInquirer("name");
-            genericConfig.consoleUtil().printLocalizedString("score", new String[] {result.getScore()});
+            consoleUtil.printLocalizedString("score", new String[] {result.getScore()});
         } catch (Exception e) {
             logger.info(e.getMessage());
         }
