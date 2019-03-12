@@ -23,11 +23,8 @@ public class App {
 
 
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.register(DaoConfig.class);
-        context.register(ServiceConfig.class);
-        context.register(GenericConfig.class);
-        context.refresh();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
+
 
         logger.info("logger app");
         RunnerService inquirerService = context.getBean(RunnerService.class);
