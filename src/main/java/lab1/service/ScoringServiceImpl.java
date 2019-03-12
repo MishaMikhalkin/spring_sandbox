@@ -6,18 +6,20 @@ public class ScoringServiceImpl implements ScoringService {
 
 
     @Override
-    public String evaluate(Result result) {
+    public Result evaluate(Result result) {
 
-         double score = result.getResult() / result.getAnswers().size() ;
+        double score = result.getResult() / result.getAnswers().size() ;
 
+        String value = "D";
         if (score >= 0.9) {
-            return "A";
+            value = "A";
         } else if (score >= 0.8) {
-            return "B";
+            value = "B";
         } else if (score >= 0.7) {
-            return "C";
-        } else {
-            return "D";
+            value = "C";
         }
+
+        result.setScore(value);
+        return result;
     }
 }

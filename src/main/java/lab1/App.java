@@ -34,7 +34,7 @@ public class App {
         ConsoleUtil consoleUtil = context.getBean(ConsoleUtil.class);
         try {
             Result result = inquirerService.makeInquirer("name");
-            consoleUtil.printLocalizedString("score", new String[] {result.getScore()});
+            inquirerService.printResult(result);
         } catch (Exception e) {
             logger.info(e.getMessage());
         }

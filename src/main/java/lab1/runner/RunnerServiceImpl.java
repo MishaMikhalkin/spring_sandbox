@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RunnerServiceImpl implements RunnerService {
-    private StudentService studentService;
-    private QuestionnaireService questionnaireService;
-    private ConsoleUtil consoleUtil;
+    private final StudentService studentService;
+    private final QuestionnaireService questionnaireService;
+    private final ConsoleUtil consoleUtil;
 
-    private ScoringService scoringService;
+    private final ScoringService scoringService;
 
     @Autowired
     public RunnerServiceImpl(StudentService studentService, QuestionnaireService questionnaireService,
@@ -59,8 +59,15 @@ public class RunnerServiceImpl implements RunnerService {
         result.setResult(resultSum);
         result.setAnswers(answerItems);
 
-        String score = scoringService.evaluate(result);
-        result.setScore(score);
         return result;
+    }
+
+    public Result calculateScore(Result result) {
+        return scoringService.evaluate(result);
+    }
+
+    public void printResult(Result result) {
+        scoringService.evaluate(result);
+        consoleUtil.printLocalizedString("score", new String[] {result.getScore()});
     }
 }
