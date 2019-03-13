@@ -2,6 +2,7 @@ package lab1.config;
 
 import lab1.util.AppLanguage;
 import lab1.util.ConsoleUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,6 +10,8 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 @Configuration
 public class GenericConfig {
+    @Value("${questionare}")
+    public String questionareName;
 
     @Bean
     public MessageSource messageSource() {
@@ -20,7 +23,7 @@ public class GenericConfig {
 
     @Bean
     public AppLanguage locale() {
-        return new AppLanguage("ru");
+        return new AppLanguage("en");
     }
 
     @Bean

@@ -11,16 +11,22 @@ import lab1.runner.RunnerService;
 import lab1.util.ConsoleUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
 import java.io.Console;
 
 
 @Configuration
 @ComponentScan
+@PropertySource("classpath:message.properties")
+
 public class App {
+
+
 
     final static Logger logger = LoggerFactory.getLogger(App.class);
 
