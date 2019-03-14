@@ -1,12 +1,14 @@
 package lab1.util;
 
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Locale;
 
 public class AppLanguage {
 
     private String locale;
 
-    public AppLanguage(String locale) {
+    public AppLanguage(@Value("${language}") String locale) {
         this.locale = locale;
     }
 

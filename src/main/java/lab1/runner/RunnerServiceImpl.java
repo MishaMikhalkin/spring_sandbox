@@ -4,6 +4,7 @@ import lab1.domain.*;
 import lab1.service.QuestionnaireService;
 import lab1.service.ScoringService;
 import lab1.service.StudentService;
+import lab1.util.AppLanguage;
 import lab1.util.ConsoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 

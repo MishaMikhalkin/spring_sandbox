@@ -17,21 +17,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class QuestionnaireCSVDao implements QuestionnaireDao {
-    @Autowired
+
     private ConsoleUtil consoleUtil;
 
+    private AppLanguage appLanguage;
 
     @Autowired
-    private AppLanguage appLanguage;
+    public QuestionnaireCSVDao(AppLanguage appLanguage, ConsoleUtil consoleUtil) {
+        this.consoleUtil = consoleUtil;
+        this.appLanguage = appLanguage;
+    }
 
     @Override
     public Questionnaire findByName(String name) throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        String questionsLocalizedFile = consoleUtil.getLocalizedString("questions", new String[]{name});
+        String questionsLocalizedFile = consoleUtil.getLocalizedString("questions", new String[]{name, appLanguage.toString()});
         File questionFile = new File(classLoader.getResource(questionsLocalizedFile).getFile());
 
-        String answerLocalizedFile = consoleUtil.getLocalizedString("answers", new String[]{name});
+        String answerLocalizedFile = consoleUtil.getLocalizedString("answers", new String[]{name, appLanguage.toString()});
         File answerFile = new File(classLoader.getResource(answerLocalizedFile).getFile());
 
         try (FileReader questionReader = new FileReader(questionFile)) {

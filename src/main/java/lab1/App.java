@@ -27,7 +27,6 @@ import java.io.Console;
 public class App {
 
 
-
     final static Logger logger = LoggerFactory.getLogger(App.class);
 
 
@@ -38,6 +37,7 @@ public class App {
         logger.info("logger app");
         RunnerService inquirerService = context.getBean(RunnerService.class);
         ConsoleUtil consoleUtil = context.getBean(ConsoleUtil.class);
+
         try {
             Result result = inquirerService.makeInquirer("name");
             inquirerService.printResult(result);

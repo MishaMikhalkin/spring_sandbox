@@ -10,8 +10,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 
 @Configuration
 public class GenericConfig {
-    @Value("${questionare}")
-    public String questionareName;
 
     @Bean
     public MessageSource messageSource() {
