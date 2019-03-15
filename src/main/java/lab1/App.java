@@ -3,33 +3,44 @@
  */
 package lab1;
 
-import lab1.domain.Questionnaire;
+import lab1.config.DaoConfig;
+import lab1.config.GenericConfig;
+import lab1.config.ServiceConfig;
 import lab1.domain.Result;
-import lab1.domain.Student;
-import lab1.service.*;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import lab1.runner.RunnerService;
+import lab1.util.ConsoleUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 
+import java.io.Console;
+
+
+@Configuration
+@ComponentScan
+@PropertySource("classpath:application.properties")
 public class App {
-    public String getGreeting() {
-        return "Hello world.";
-    }
+
+
+    final static Logger logger = LoggerFactory.getLogger(App.class);
+
 
     public static void main(String[] args) {
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("./spring-config.xml");
-        StudentService studentService =  context.getBean(StudentService.class);
-        Student student = studentService.register();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(App.class);
 
-        QuestionnaireService questionnaireService = context.getBean(QuestionnaireService.class);
+
+        logger.info("logger app");
+        RunnerService inquirerService = context.getBean(RunnerService.class);
+
         try {
-            Questionnaire questionnaire = questionnaireService.findByName("name");
-
-            InquirerService inquirerService = context.getBean(InquirerService.class);
-            Result result = inquirerService.makeInquirer(student, questionnaire);
-
-            ScoringService scoringService = context.getBean(ScoringService.class);
-            System.out.println(scoringService.evaluate(result));
+            Result result = inquirerService.makeInquirer("name");
+            inquirerService.printResult(result);
         } catch (Exception e) {
-
+            logger.info(e.getMessage());
         }
 
     }

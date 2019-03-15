@@ -1,25 +1,24 @@
 package lab1.dao;
 
 import lab1.domain.Student;
-
-import java.util.Scanner;
+import lab1.util.ConsoleUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class StudentConsoleDao implements StudentDao {
+    private ConsoleUtil consoleUtil;
+
+
+    @Autowired
+    public StudentConsoleDao(ConsoleUtil consoleUtil) {
+        this.consoleUtil = consoleUtil;
+    }
 
     @Override
     public Student load() {
-
-
-        String firstName = null;
-        String lastName = null;
-
-        Scanner sc = new Scanner(System.in);
-
-        System.out.println("Введите имя студента:");
-        firstName = sc.nextLine();
-        System.out.println("Введите фамилию студента:");
-        lastName = sc.nextLine();
-
+        consoleUtil.printLocalizedString("insertfn", null);
+        String firstName = consoleUtil.readString();
+        consoleUtil.printLocalizedString("insertln", null);
+        String lastName = consoleUtil.readString();
 
         return new Student(firstName, lastName);
     }
