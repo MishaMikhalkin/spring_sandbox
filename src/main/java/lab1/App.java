@@ -22,8 +22,7 @@ import java.io.Console;
 
 @Configuration
 @ComponentScan
-@PropertySource("classpath:message.properties")
-
+@PropertySource("classpath:application.properties")
 public class App {
 
 

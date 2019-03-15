@@ -7,6 +7,7 @@ import lab1.domain.Questionnaire;
 import lab1.util.AppLanguage;
 import lab1.util.ConsoleUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 
 import java.io.File;
@@ -22,8 +23,18 @@ public class QuestionnaireCSVDao implements QuestionnaireDao {
 
     private AppLanguage appLanguage;
 
+    private String questionFilePrefix;
+    private String answerFilePrefix;
+    private String fileNameFormat;
+
     @Autowired
-    public QuestionnaireCSVDao(AppLanguage appLanguage, ConsoleUtil consoleUtil) {
+    public QuestionnaireCSVDao(@Value("${questionFilePrefix}") String questionFilePrefix,
+                               @Value("${answerFilePrefix}") String answerFilePrefix,
+                               @Value("${fileNameFormat}") String fileNameFormat,
+                               AppLanguage appLanguage, ConsoleUtil consoleUtil) {
+        this.questionFilePrefix = questionFilePrefix;
+        this.answerFilePrefix = answerFilePrefix;
+        this.fileNameFormat = fileNameFormat;
         this.consoleUtil = consoleUtil;
         this.appLanguage = appLanguage;
     }
@@ -32,10 +43,10 @@ public class QuestionnaireCSVDao implements QuestionnaireDao {
     public Questionnaire findByName(String name) throws Exception {
         ClassLoader classLoader = getClass().getClassLoader();
 
-        String questionsLocalizedFile = consoleUtil.getLocalizedString("questions", new String[]{name, appLanguage.toString()});
+        String questionsLocalizedFile = String.format(fileNameFormat, questionFilePrefix, appLanguage.toString());
         File questionFile = new File(classLoader.getResource(questionsLocalizedFile).getFile());
 
-        String answerLocalizedFile = consoleUtil.getLocalizedString("answers", new String[]{name, appLanguage.toString()});
+        String answerLocalizedFile = String.format(fileNameFormat, answerFilePrefix, appLanguage.toString());
         File answerFile = new File(classLoader.getResource(answerLocalizedFile).getFile());
 
         try (FileReader questionReader = new FileReader(questionFile)) {

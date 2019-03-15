@@ -1,6 +1,5 @@
 package lab1.runner;
 
-import lab1.App;
 import lab1.config.DaoConfig;
 import lab1.config.ServiceConfig;
 import lab1.domain.Result;
@@ -9,7 +8,6 @@ import lab1.service.ScoringService;
 import lab1.service.StudentService;
 import lab1.util.AppLanguage;
 import lab1.util.ConsoleUtil;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,18 +17,27 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.File;
 
 import static org.junit.Assert.*;
 
+@TestPropertySource("/test.properties")
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {RunnerServiceImplTest.ConsoleUtilConfiguration.class, ServiceConfig.class, DaoConfig.class})
 public class RunnerServiceImplTest {
     @Configuration
     static class ConsoleUtilConfiguration {
+
+        @Bean
+        public MessageSource applicationProperties() {
+            ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+            messageSource.setDefaultEncoding("UTF-8");
+            return messageSource;
+        }
 
         @Bean
         @Primary
@@ -64,8 +71,6 @@ public class RunnerServiceImplTest {
     public void init() {
         Mockito.when(consoleUtil.readString()).thenReturn("2").thenReturn("3");
         Mockito.when(consoleUtil.readInt()).thenReturn(1).thenReturn(1);
-        Mockito.when(consoleUtil.getLocalizedString("questions", new String[]{"name", "en"})).thenReturn("name-questions_en.csv");
-        Mockito.when(consoleUtil.getLocalizedString("answers", new String[]{"name", "en"})).thenReturn("name-answers_en.csv");
         runnerService = new RunnerServiceImpl(studentService, questionnaireService, scoringService, consoleUtil);
     }
 
