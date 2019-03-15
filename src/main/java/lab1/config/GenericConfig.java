@@ -28,8 +28,8 @@ public class GenericConfig {
     }
 
     @Bean
-    public AppLanguage locale() {
-        return new AppLanguage("en");
+    public AppLanguage locale(@Value("${language}") String language) {
+        return new AppLanguage(language);
     }
 
     @Bean
