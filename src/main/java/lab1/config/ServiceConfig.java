@@ -15,22 +15,18 @@ import org.springframework.stereotype.Service;
 @Configuration
 public class ServiceConfig {
 
-    @Autowired StudentDao studentDao;
-
-    @Autowired QuestionnaireDao questionnaireDao;
-
-    @Autowired ConsoleUtil consoleUtil;
-
+    @Bean
+    public StudentService studentService(StudentDao studentDao) { return new StudentServiceImpl(studentDao); }
 
     @Bean
-    public StudentService studentService() { return new StudentServiceImpl(studentDao); }
+    public QuestionnaireService questionnaireService(QuestionnaireDao questionnaireDao) { return  new QuestionnaireServiceImpl(questionnaireDao); }
 
     @Bean
-    public QuestionnaireService questionnaireService() { return  new QuestionnaireServiceImpl(questionnaireDao); }
-
-    @Bean
-    public RunnerService inquirerService() { return  new RunnerServiceImpl(studentService(), questionnaireService(), scoringService(),
-            consoleUtil); }
+    public RunnerService inquirerService(StudentService studentService,
+                                         QuestionnaireService questionnaireService,
+                                         ScoringService scoringService,
+                                         ConsoleUtil consoleUtil) {
+        return new RunnerServiceImpl(studentService, questionnaireService, scoringService, consoleUtil); }
 
     @Bean
     public  ScoringService scoringService() { return  new ScoringServiceImpl(); }

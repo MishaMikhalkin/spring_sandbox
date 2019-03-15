@@ -16,16 +16,12 @@ import org.springframework.stereotype.Service;
 @Configuration
 public class DaoConfig {
 
-    @Autowired AppLanguage locale;
-
-    @Autowired ConsoleUtil consoleUtil;
-
+    @Bean
+    public StudentDao studentDao(ConsoleUtil consoleUtil) { return new StudentConsoleDao(consoleUtil); }
 
     @Bean
-    public StudentDao studentDao() { return new StudentConsoleDao(consoleUtil); }
-
-    @Bean
-    public QuestionnaireDao questionnaireDao() { return new QuestionnaireCSVDao(locale, consoleUtil); }
+    public QuestionnaireDao questionnaireDao(AppLanguage appLanguage, ConsoleUtil consoleUtil) {
+        return new QuestionnaireCSVDao(appLanguage, consoleUtil); }
 
 
 }

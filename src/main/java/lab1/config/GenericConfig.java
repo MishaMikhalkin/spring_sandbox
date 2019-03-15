@@ -25,8 +25,8 @@ public class GenericConfig {
     }
 
     @Bean
-    public ConsoleUtil consoleUtil() {
-        return  new ConsoleUtil(locale(), messageSource());
+    public ConsoleUtil consoleUtil(AppLanguage locale, MessageSource messageSource) {
+        return  new ConsoleUtil(locale, messageSource);
     }
 
 }
